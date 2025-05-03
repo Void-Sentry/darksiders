@@ -2,6 +2,7 @@ include:
   - bus/compose.yaml
   - auth/compose.yaml
   - blob/compose.yaml
+  - smtp/compose.yaml
   - cache/compose.yaml
   - gateway/compose.yaml
   - database/compose.yaml
