@@ -9,6 +9,7 @@ services:
     ports:
       - 8000:8000
       - 8080:8080
+      - 8025:8025
       # - 3000:3000
     volumes:
       - ./haproxy.cfg:/usr/local/etc/haproxy/haproxy.cfg
@@ -20,4 +21,5 @@ services:
       - strifenet
       - deathnet
       - warnet
+      - smtpnet
       # - blobnet

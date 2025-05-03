@@ -38,6 +38,7 @@ services:
     networks:
       - authnet
       - dbnet
+      - smtpnet
 
 networks:
   authnet:
