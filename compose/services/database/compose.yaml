@@ -1,0 +1,236 @@
+include:
+  - net.yaml
+  - storage.yaml
+
+services:
+  roach-lb:
+    image: haproxy:latest
+    restart: always
+    container_name: roach-lb
+    # ports:
+    #   - 26257:26257
+    #   - 8080:8080
+    #   - 8081:8081
+    depends_on:
+      - roach1
+      - roach2
+      - roach3
+    volumes:
+      - ./haproxy.cfg:/usr/local/etc/haproxy/haproxy.cfg
+    networks:
+      - dbnet
+
+  roach1:
+    image: cockroachdb/cockroach:v24.2.1
+    networks:
+      - dbnet
+    restart: always
+    command: [
+      'start',
+      '--advertise-addr=roach1:26357',
+      '--http-addr=roach1:8080',
+      '--listen-addr=roach1:26357',
+      '--sql-addr=roach1:26257',
+      '--cache=.25',
+      '--max-sql-memory=.25',
+      '--logtostderr',
+      '--certs-dir=/run/secrets',
+      '--join=roach1:26357,roach2:26357,roach3:26357',
+    ]
+    secrets:
+      - source: db_ca_crt
+        target: ca.crt
+      - source: db_node1_key
+        target: node.key
+        mode: 0600
+      - source: db_node1_crt
+        target: node.crt
+
+      - source: db_client_root_key
+        target: client.root.key
+        mode: 0600
+      - source: db_client_root_crt
+        target: client.root.crt
+
+      - source: db_client_zitadel_key
+        target: client.zitadel.key
+        mode: 0600
+      - source: db_client_zitadel_crt
+        target: client.zitadel.crt
+
+      - source: db_client_fury_key
+        target: client.fury.key
+        mode: 0600
+      - source: db_client_fury_crt
+        target: client.fury.crt
+
+      - source: db_client_strife_key
+        target: client.strife.key
+        mode: 0600
+      - source: db_client_strife_crt
+        target: client.strife.crt
+
+      - source: db_client_death_key
+        target: client.death.key
+        mode: 0600
+      - source: db_client_death_crt
+        target: client.death.crt
+
+      - source: db_client_war_key
+        target: client.war.key
+        mode: 0600
+      - source: db_client_war_crt
+        target: client.war.crt
+    volumes:
+      - dbdata1:/cockroach/cockroach-data
+
+  roach2:
+    image: cockroachdb/cockroach:v24.2.1
+    depends_on:
+      - roach1
+    networks:
+      - dbnet
+    restart: always
+    command: [
+      'start',
+      '--advertise-addr=roach2:26357',
+      '--http-addr=roach2:8080',
+      '--listen-addr=roach2:26357',
+      '--sql-addr=roach2:26257',
+      '--cache=.25',
+      '--max-sql-memory=.25',
+      '--logtostderr',
+      '--certs-dir=/run/secrets',
+      '--join=roach1:26357,roach2:26357,roach3:26357',
+    ]
+    secrets:
+      - source: db_ca_crt
+        target: ca.crt
+
+      - source: db_node2_key
+        target: node.key
+        mode: 0600
+      - source: db_node2_crt
+        target: node.crt
+
+      - source: db_client_root_key
+        target: client.root.key
+        mode: 0600
+      - source: db_client_root_crt
+        target: client.root.crt
+
+      - source: db_client_zitadel_key
+        target: client.zitadel.key
+        mode: 0600
+      - source: db_client_zitadel_crt
+        target: client.zitadel.crt
+
+      - source: db_client_fury_key
+        target: client.fury.key
+        mode: 0600
+      - source: db_client_fury_crt
+        target: client.fury.crt
+
+      - source: db_client_strife_key
+        target: client.strife.key
+        mode: 0600
+      - source: db_client_strife_crt
+        target: client.strife.crt
+
+      - source: db_client_death_key
+        target: client.death.key
+        mode: 0600
+      - source: db_client_death_crt
+        target: client.death.crt
+
+      - source: db_client_war_key
+        target: client.war.key
+        mode: 0600
+      - source: db_client_war_crt
+        target: client.war.crt
+    volumes:
+      - dbdata2:/cockroach/cockroach-data
+
+  roach3:
+    image: cockroachdb/cockroach:v24.2.1
+    depends_on:
+      - roach1
+      - roach2
+    networks:
+      - dbnet
+    restart: always
+    command: [
+      'start',
+      '--advertise-addr=roach3:26357',
+      '--http-addr=roach3:8080',
+      '--listen-addr=roach3:26357',
+      '--sql-addr=roach3:26257',
+      '--cache=.25',
+      '--max-sql-memory=.25',
+      '--logtostderr',
+      '--certs-dir=/run/secrets',
+      '--join=roach1:26357,roach2:26357,roach3:26357',
+    ]
+    secrets:
+      - source: db_ca_crt
+        target: ca.crt
+
+      - source: db_node3_key
+        target: node.key
+        mode: 0600
+      - source: db_node3_crt
+        target: node.crt
+
+      - source: db_client_root_key
+        target: client.root.key
+        mode: 0600
+      - source: db_client_root_crt
+        target: client.root.crt
+
+      - source: db_client_zitadel_key
+        target: client.zitadel.key
+        mode: 0600
+      - source: db_client_zitadel_crt
+        target: client.zitadel.crt
+
+      - source: db_client_fury_key
+        target: client.fury.key
+        mode: 0600
+      - source: db_client_fury_crt
+        target: client.fury.crt
+
+      - source: db_client_strife_key
+        target: client.strife.key
+        mode: 0600
+      - source: db_client_strife_crt
+        target: client.strife.crt
+
+      - source: db_client_death_key
+        target: client.death.key
+        mode: 0600
+      - source: db_client_death_crt
+        target: client.death.crt
+
+      - source: db_client_war_key
+        target: client.war.key
+        mode: 0600
+      - source: db_client_war_crt
+        target: client.war.crt
+    volumes:
+      - dbdata3:/cockroach/cockroach-data
+
+secrets:
+  db_node1_key:
+    file: node1/certs/node.key
+  db_node1_crt:
+    file: node1/certs/node.crt
+
+  db_node2_key:
+    file: node2/certs/node.key
+  db_node2_crt:
+    file: node2/certs/node.crt
+
+  db_node3_key:
+    file: node3/certs/node.key
+  db_node3_crt:
+    file: node3/certs/node.crt

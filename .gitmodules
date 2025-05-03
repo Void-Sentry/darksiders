@@ -1,0 +1,20 @@
+[submodule "src/death"]
+	path = src/death
+	url = git@github.com:Void-Sentry/darksiders-death.git
+	branch = main
+[submodule "src/fury"]
+	path = src/fury
+	url = git@github.com:Void-Sentry/darksiders-fury.git
+	branch = main
+[submodule "src/strife"]
+	path = src/strife
+	url = git@github.com:Void-Sentry/darksiders-strife.git
+	branch = main
+[submodule "src/war"]
+	path = src/war
+	url = git@github.com:Void-Sentry/darksiders-war.git
+	branch = main
+[submodule "src/eireneon"]
+	path = src/eireneon
+	url = git@github.com:Void-Sentry/darksiders-eireneon.git
+	branch = main

@@ -1,0 +1,3 @@
+networks:
+  busnet:
+    driver: bridge

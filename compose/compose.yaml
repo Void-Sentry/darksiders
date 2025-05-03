@@ -1,0 +1,41 @@
+include:
+  - ../src/fury/compose.yaml
+  - ../src/eireneon/compose.yaml
+  - ../src/strife/compose.yaml
+  - ../src/death/compose.yaml
+  - ../src/war/compose.yaml
+  - services/compose.yaml
+
+secrets:
+  db_ca_crt:
+    file: services/database/ca.crt
+
+  db_client_root_key:
+    file: services/database/clients/root/client.root.key
+  db_client_root_crt:
+    file: services/database/clients/root/client.root.crt
+
+  db_client_zitadel_key:
+    file: services/database/clients/zitadel/client.zitadel.key
+  db_client_zitadel_crt:
+    file: services/database/clients/zitadel/client.zitadel.crt
+
+  db_client_fury_key:
+    file: services/database/clients/fury/client.fury.key
+  db_client_fury_crt:
+    file: services/database/clients/fury/client.fury.crt
+
+  db_client_strife_key:
+    file: services/database/clients/strife/client.strife.key
+  db_client_strife_crt:
+    file: services/database/clients/strife/client.strife.crt
+
+  db_client_death_key:
+    file: services/database/clients/death/client.death.key
+  db_client_death_crt:
+    file: services/database/clients/death/client.death.crt
+
+  db_client_war_key:
+    file: services/database/clients/war/client.war.key
+  db_client_war_crt:
+    file: services/database/clients/war/client.war.crt

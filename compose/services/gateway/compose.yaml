@@ -1,0 +1,23 @@
+include:
+  - net.yaml
+
+services:
+  gateway:
+    image: haproxy:latest
+    restart: always
+    container_name: gateway
+    ports:
+      - 8000:8000
+      - 8080:8080
+      # - 3000:3000
+    volumes:
+      - ./haproxy.cfg:/usr/local/etc/haproxy/haproxy.cfg
+    networks:
+      - gatewaynet
+      - eireneonnet
+      - authnet
+      - furynet
+      - strifenet
+      - deathnet
+      - warnet
+      # - blobnet

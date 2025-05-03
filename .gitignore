@@ -1,0 +1,7 @@
+machinekey
+.env
+rabbitmq.conf
+compose/services/database/clients
+compose/services/database/node*
+*.crt
+*.key

@@ -1,0 +1,3 @@
+networks:
+  blobnet:
+    driver: bridge

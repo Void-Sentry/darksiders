@@ -1,0 +1,47 @@
+services:
+  zitadel:
+    image: 'ghcr.io/zitadel/zitadel:v2.64.3'
+    command: 'start-from-init --config /config.yaml --masterkey "BivzmFKQeGFFEZnUiRrhUTDfYVPdwCea" --tlsMode disabled'
+    secrets:
+      - source: db_ca_crt
+        target: ca.crt
+      - source: db_client_root_key
+        target: client.root.key
+        mode: 0600
+      - source: db_client_root_crt
+        target: client.root.crt
+      - source: db_client_zitadel_key
+        target: client.zitadel.key
+        mode: 0600
+      - source: db_client_zitadel_crt
+        target: client.zitadel.crt
+    environment:
+      - ZITADEL_EXTERNALPORT=8001
+      - ZITADEL_EXTERNALSECURE=false
+      - ZITADEL_TLS_ENABLED=false
+      - ZITADEL_EXTERNALDOMAIN=localhost
+    deploy:
+      replicas: 1
+      update_config:
+        parallelism: 2
+        delay: 10s
+      restart_policy:
+        condition: on-failure
+    volumes:
+      - ./config.yaml:/config.yaml
+      # - ./certs/ca.crt:/certs/ca.crt
+      # - ./certs/client.root.crt:/certs/client.root.crt
+      # - ./certs/client.root.key:/certs/client.root.key
+      # - ./certs/client.zitadel.crt:/certs/client.zitadel.crt
+      # - ./certs/client.zitadel.key:/certs/client.zitadel.key
+      - ./machinekey:/machinekey
+    networks:
+      - authnet
+      - dbnet
+
+networks:
+  authnet:
+    driver: bridge
+
+  # dbnet1:
+  #   external: true

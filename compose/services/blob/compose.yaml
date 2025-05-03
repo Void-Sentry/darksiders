@@ -1,0 +1,17 @@
+include:
+  - net.yaml
+  - storage.yaml
+
+services:
+  blob:
+    image: quay.io/minio/minio
+    container_name: blob
+    restart: always
+    command: server /data --console-address ":9001"
+    environment:
+      MINIO_ROOT_USER: minio
+      MINIO_ROOT_PASSWORD: minio123
+    networks:
+      - blobnet
+    volumes:
+      - blob-data:/data
