@@ -16,16 +16,19 @@ initialize() {
 
 update_client_id() {
   CLIENT_ID="$1"
-
   echo "Updating Client ID to: $CLIENT_ID"
 
   FILE=src/eireneon/.env
+  [ ! -f "$FILE" ] && echo "Error: File $FILE not found" && exit 1
+  
   grep -q "^NEXT_PUBLIC_CLIENT_ID=" "$FILE" \
     && sed -i "s/^NEXT_PUBLIC_CLIENT_ID=.*/NEXT_PUBLIC_CLIENT_ID=$CLIENT_ID/" "$FILE" \
     || echo "NEXT_PUBLIC_CLIENT_ID=$CLIENT_ID" >> "$FILE"
 
   for service in war fury strife death; do
     FILE="src/$service/.env"
+    [ ! -f "$FILE" ] && echo "Warning: File $FILE not found" && continue
+    
     grep -q "^AUDIENCE=" "$FILE" \
       && sed -i "s/^AUDIENCE=.*/AUDIENCE=$CLIENT_ID/" "$FILE" \
       || echo "AUDIENCE=$CLIENT_ID" >> "$FILE"
@@ -34,12 +37,33 @@ update_client_id() {
 
 update_service_token() {
   TOKEN="$1"
+  FILE="src/war/.env"
 
-  echo "Updating service token in src/war/.env"
-
-  FILE="darksiders/src/war/.env"
-
+  [ ! -f "$FILE" ] && echo "Error: File $FILE not found" && exit 1
+  
+  echo "Updating service token in $FILE"
   grep -q "^SERVICE_TOKEN=" "$FILE" \
     && sed -i "s/^SERVICE_TOKEN=.*/SERVICE_TOKEN=$TOKEN/" "$FILE" \
     || echo "SERVICE_TOKEN=$TOKEN" >> "$FILE"
+  
+  echo "Verification:"
+  grep "^SERVICE_TOKEN=" "$FILE"
 }
+
+# Handle command line arguments
+case "$1" in
+    initialize)
+        initialize
+        ;;
+    update_client_id)
+        [ -z "$2" ] && echo "Error: Missing client ID" && exit 1
+        update_client_id "$2"
+        ;;
+    update_service_token)
+        [ -z "$2" ] && echo "Error: Missing token" && exit 1
+        update_service_token "$2"
+        ;;
+    *)
+        echo "Usage: $0 {initialize|update_client_id <client_id>|update_service_token <token>}"
+        exit 1
+esac
