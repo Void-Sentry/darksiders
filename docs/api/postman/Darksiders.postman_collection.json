@@ -1,0 +1,449 @@
+{
+	"info": {
+		"_postman_id": "be08e25d-460c-4011-9eac-07ff0a1ab589",
+		"name": "Darksiders",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "31966927"
+	},
+	"item": [
+		{
+			"name": "fury",
+			"item": [
+				{
+					"name": "make post",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "content",
+									"value": "test te",
+									"type": "text"
+								},
+								{
+									"key": "file",
+									"type": "file",
+									"src": "/C:/Users/oseia/OneDrive/Imagens/Screenshots/Screenshot 2025-05-01 154831.png"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/post",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"post"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "feed",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_URL}}/post?page=1&size=10",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"post"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "size",
+									"value": "10"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "search",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"page\": 1,\r\n    \"size\": 10\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/post/search?description=some desc&page=2&size=2",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"post",
+								"search"
+							],
+							"query": [
+								{
+									"key": "description",
+									"value": "some desc"
+								},
+								{
+									"key": "page",
+									"value": "2"
+								},
+								{
+									"key": "size",
+									"value": "2"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "like post",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_URL}}/post/1068691683990568961/like",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"post",
+								"1068691683990568961",
+								"like"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "dislike post",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_URL}}/post/1068691683990568961/dislike",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"post",
+								"1068691683990568961",
+								"dislike"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"auth": {
+				"type": "bearer",
+				"bearer": [
+					{
+						"key": "token",
+						"value": "{{TOKEN}}",
+						"type": "string"
+					}
+				]
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"packages": {},
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"packages": {},
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "war",
+			"item": [
+				{
+					"name": "info",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_URL}}/profile",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"profile"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "followers",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_URL}}/profile/followers",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"profile",
+								"followers"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "session",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_URL}}/profile/session",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"profile",
+								"session"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "session",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_URL}}/profile/session",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"profile",
+								"session"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "death",
+			"item": [
+				{
+					"name": "following",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_URL}}/follow/following?page=1&size=10",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"follow",
+								"following"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "size",
+									"value": "10"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "search",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_URL}}/follow/search?displayName=zitadel1&page=1&size=2",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"follow",
+								"search"
+							],
+							"query": [
+								{
+									"key": "displayName",
+									"value": "zitadel1"
+								},
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "size",
+									"value": "2"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "follow",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_URL}}/follow/317609191134986242",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"follow",
+								"317609191134986242"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "unfollow",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_URL}}/follow/123123",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"follow",
+								"123123"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "recommendations",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_URL}}/follow/recommendations",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"follow",
+								"recommendations"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "strife",
+			"item": [
+				{
+					"name": "notifications",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_URL}}/bell",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"bell"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "BASE_URL",
+			"value": "http://localhost:8000",
+			"type": "string"
+		},
+		{
+			"key": "TOKEN",
+			"value": "eyJhbGciOiJSUzI1NiIsImtpZCI6IjMxODMzODQ3NDUwMTQ3MjI1OCIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjgwODAiLCJzdWIiOiIzMTc2MDY4NDc0MDg4MzI1MTQiLCJhdWQiOlsiMzE3NjA4NzU1MDk1MjA3OTM4IiwiMzE3NjA4NTg2NzM1Nzc5ODQyIl0sImV4cCI6MTc0NjI4NzA2MywiaWF0IjoxNzQ2MjQzODYzLCJhdXRoX3RpbWUiOjE3NDYyNDM4NjIsImFtciI6WyJwd2QiXSwiYXpwIjoiMzE3NjA4NzU1MDk1MjA3OTM4IiwiY2xpZW50X2lkIjoiMzE3NjA4NzU1MDk1MjA3OTM4IiwiYXRfaGFzaCI6ImlVV1NvWmRkWlQ4eUJXVlQzNnZfMHciLCJzaWQiOiJWMV8zMTgzNDQwODgyMDgyNzc1MDYiLCJuYW1lIjoiWklUQURFTCBBZG1pbiIsImdpdmVuX25hbWUiOiJaSVRBREVMIiwiZmFtaWx5X25hbWUiOiJBZG1pbiIsImxvY2FsZSI6ImVuIiwidXBkYXRlZF9hdCI6MTc0NTgwNDQzNCwicHJlZmVycmVkX3VzZXJuYW1lIjoieml0YWRlbC1hZG1pbkB6aXRhZGVsLmxvY2FsaG9zdCIsImVtYWlsIjoieml0YWRlbC1hZG1pbkB6aXRhZGVsLmxvY2FsaG9zdCIsImVtYWlsX3ZlcmlmaWVkIjp0cnVlfQ.UT5KzMWY2IxQg_gL2BKxcpgLc3fEQ63r2isNPRi6DSlGehv4Ca498FIpAVkNMVGEt9_ODN72mVBM2bg_J-xuy1vUrh0oDjb-uSyGzEhStk7j1SRsXh-omVGuV6_fkwm8K1qtZKzatJZVdZEpm4yr6G-QckhT9iUJkC9XRAmN1V1v814VIPCzF9QQgNZ3MHi-oTb8crPtNW3njtrc7RSAVQJVg0h59ZTBaqklF-XYGlOxjRAiMPkR_mQbDz4otJ7dOXVaMLCDUFBYicPyNsdpFwGaX6t58AXxodfxRgIaXUelsVdcxUbUSWqe2YvhSoaJylZJiPqo4OVzjxHkSld99w",
+			"type": "string"
+		}
+	]
+}
