@@ -4,6 +4,14 @@ A Twitter-like application built with a microservices architecture using Docker,
 
 ---
 
+## 📚 Documentation Overview
+
+Below is a centralized guide to all the core documentation for the **Darksiders** project, organized by topic to help you understand, test, and maintain the system effectively.
+
+📁 Path: [`docs`](./docs/README.md)
+
+---
+
 ## Requirements
 
 * **Node.js**: LTS version
@@ -62,7 +70,7 @@ Visit the console at:
    * **Type**: Web
    * **Authentication Method**: PKCE (Proof Key for Code Exchange)
    * Enable **Development Mode**
-   * **Redirect URI**: `http://localhost:8000/callback` and `https://oidcdebugger.com/debug` (for postman)
+   * **Redirect URI**: `http://localhost:8000/callback` and `https://oidcdebugger.com/debug`
    * **Post Logout URI**: `http://localhost:8000`
 4. After creating the application, copy the generated **Client ID**.
 5. Run the command below, replacing `<CLIENT_ID>` with the one you copied:
@@ -102,9 +110,7 @@ Visit the console at:
 ### 🔧 Configure SMTP in Zitadel
 
 1. Go to **Default settings** > **SMTP Provider** in the Zitadel console.
-
 2. Click **Generic SMTP**.
-
 3. Fill in the fields:
 
    * **Transport Layer Security (TLS)**: `Unchecked`
@@ -114,8 +120,7 @@ Visit the console at:
    * **Sender Email Address**: `sender@smtp.local`
    * **Sender Name**: `zitadel`
    * **Reply-To Address**: `replyto@smtp.local`
-   * **Email Address**`zitadel-admin@smtp.local`
-
+   * **Email Address**: `zitadel-admin@smtp.local`
 4. Test, create and activate the configuration.
 
 ### 📬 View Test Emails
@@ -176,5 +181,5 @@ To manually obtain an ID token for authenticated API testing (e.g., via Postman)
 
 After completing the flow, scroll down to the **PKCE Result** section and copy the generated `id_token`.
 
-You should then use this token in a `POST` request to `/profile/session`, which will exchange the `id_token` for a session cookie. All authenticated routes in the system require this cookie to be present in subsequent requests, as it represents the active session.
-
+You should then use this token in a `POST` request to `/profile/session`, which will exchange the `id_token` for a session cookie.
+All authenticated routes in the system require this cookie to be present in subsequent requests, as it represents the active session.
