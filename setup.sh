@@ -33,6 +33,8 @@ update_client_id() {
       && sed -i "s/^AUDIENCE=.*/AUDIENCE=$CLIENT_ID/" "$FILE" \
       || echo "AUDIENCE=$CLIENT_ID" >> "$FILE"
   done
+
+  docker compose -f compose/compose.yaml up -d fury death strife war eireneon --force-recreate --build
 }
 
 update_service_token() {
@@ -48,6 +50,8 @@ update_service_token() {
   
   echo "Verification:"
   grep "^SERVICE_TOKEN=" "$FILE"
+
+  docker compose -f compose/compose.yaml up -d war --force-recreate
 }
 
 # Handle command line arguments
