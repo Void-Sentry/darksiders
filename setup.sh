@@ -1,5 +1,36 @@
 #!/bin/bash
 
+show_spinner() {
+  local delay=0.1
+  local spinstr='|/-\'
+  echo -n "$1 "
+  while kill -0 "$!" 2>/dev/null; do
+    local temp=${spinstr#?}
+    printf " [%c]  " "$spinstr"
+    local spinstr=$temp${spinstr%"$temp"}
+    sleep $delay
+    printf "\b\b\b\b\b\b"
+  done
+  echo "..."
+}
+
+wait_for_zitadel_start() {
+  until docker compose -f compose/compose.yaml logs zitadel 2>&1 | grep -q "http://localhost:8001/debug/healthz"; do
+    sleep 1
+  done
+}
+
+wait_for_cockroach_start() {
+  local nodes=("roach1" "roach2" "roach3")
+  local ready_message="awaiting \`cockroach init\` or join with an already initialized node"
+
+  for node in "${nodes[@]}"; do
+    until docker compose -f compose/compose.yaml logs "$node" 2>&1 | grep -q "$ready_message"; do
+      sleep 1
+    done
+  done
+}
+
 initialize() {
   docker run --rm -it -v "$(pwd)":/app -w /app docker.io/cockroachdb/cockroach:v24.2.1 bash -c "
     cd compose/services/database &&     cockroach cert create-ca --certs-dir=./ --ca-key=ca.key &&     for node in roach1 roach2 roach3; do       cockroach cert create-node \$node roach-lb --certs-dir=./ --ca-key=ca.key &&       mkdir -p node\${node: -1}/certs && mv node.* node\${node: -1}/certs;     done &&     for client in root zitadel fury strife death war; do       cockroach cert create-client \$client --certs-dir=./ --ca-key=ca.key &&       mkdir -p clients/\$client && mv client.* clients/\$client;     done &&     chown 1000:1000 -R .
@@ -9,9 +40,11 @@ initialize() {
 
   docker compose -f compose/compose.yaml up -d
 
-  sleep 10
+  show_spinner "Waiting for CockroachDB to start" && wait_for_cockroach_start
 
   docker exec -it compose-roach1-1 ./cockroach --host roach1:26357 init --certs-dir /run/secrets
+
+  show_spinner "Waiting for Zitadel to start" && wait_for_zitadel_start
 }
 
 update_client_id() {
@@ -54,7 +87,6 @@ update_service_token() {
   docker compose -f compose/compose.yaml up -d gateway war --force-recreate
 }
 
-# Handle command line arguments
 case "$1" in
     initialize)
         initialize
