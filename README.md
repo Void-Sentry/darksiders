@@ -78,7 +78,7 @@ Visit the console at:
 1. Navigate to **Users** > **Service Users** tab.
 2. Create a new service user with a meaningful name.
 3. Go to the **Organization** section.
-4. Click the **Actions** button and select **Add Manager**.
+4. Click the **+ icon button** next to the **blue Actions button**.
 5. In the dialog:
 
    * Select the service user under **Loginname**
@@ -95,46 +95,28 @@ Visit the console at:
 
 ---
 
-### 5. Login via ZITADEL (OIDC)
-
-To obtain an ID token for testing, use:
-➡ [https://oidcdebugger.com/debug](https://oidcdebugger.com/debug)
-
-**OIDC Debugger Configuration:**
-
-* **Authorize URI**: `http://localhost:8080/oauth/v2/authorize`
-* **Client ID**: `<your-client-id>`
-* **Response Type**: `code`
-* **Use PKCE**: `SHA-256`
-* **Token URI**: `https://localhost:8080/oauth/v2/token`
-* **Response Mode**: `form_post`
-
-After completing the flow, copy the `id_token` from the **PKCE Result** section and use it as a Bearer token in your API requests.
-
----
-
-## 6. User Registration (Optional)
+## 5. User Registration
 
 > To enable user registration and email verification, you must configure an SMTP server in Zitadel.
 
 ### 🔧 Configure SMTP in Zitadel
 
-1. Go to **Settings** > **SMTP Configurations** in the Zitadel console.
+1. Go to **Default settings** > **SMTP Provider** in the Zitadel console.
 
-2. Click **Add SMTP Configuration**.
+2. Click **Generic SMTP**.
 
 3. Fill in the fields:
 
-   * **Sender Name**: `zitadel`
+   * **Transport Layer Security (TLS)**: `Unchecked`
+   * **Host And Port**: `postfix:587`
+   * **User**: `usuario@smtp.local`
+   * **Password**: `senha`
    * **Sender Email Address**: `sender@smtp.local`
+   * **Sender Name**: `zitadel`
    * **Reply-To Address**: `replyto@smtp.local`
-   * **SMTP Host**: `postfix`
-   * **SMTP Port**: `587`
-   * **SMTP Username**: `usuario@smtp.local`
-   * **SMTP Password**: `senha`
-   * **Encryption**: `STARTTLS` or `Unencrypted` (based on `postfix` config)
+   * **Email Address**`zitadel-admin@smtp.local`
 
-4. Save and activate the configuration.
+4. Test, create and activate the configuration.
 
 ### 📬 View Test Emails
 
@@ -156,3 +138,44 @@ All outgoing emails (e.g., verifications, resets) can be viewed via MailPit:
 
 * `john@gmail.com`
 * `user@outlook.com`
+
+---
+
+Claro! Aqui está a seção reformulada com um inglês mais claro e profissional, e o ponto 6 mais elaborado:
+
+---
+
+### 6. Access the Frontend
+
+Navigate to the frontend application to interact with the Darksiders platform.
+
+➡ [http://localhost:8000](http://localhost:8000)
+
+From here, you can:
+
+* **Register new users** using the signup flow.
+* **Log in** using Zitadel credentials.
+* **Create posts** and share content.
+* **Discover other users** on the platform.
+* **Follow/unfollow users** to build your social network.
+
+This interface serves as the main entry point for testing and interacting with the Darksiders ecosystem.
+
+---
+
+### 7. Obtain an ID Token Using OIDC Debugger (Postman Only)
+
+To manually obtain an ID token for authenticated API testing (e.g., via Postman), use:
+
+➡ [https://oidcdebugger.com/debug](https://oidcdebugger.com/debug)
+
+**OIDC Debugger Configuration:**
+
+* **Authorize URI**: `http://localhost:8080/oauth/v2/authorize`
+* **Client ID**: `<your-client-id>`
+* **Response Type**: `code`
+* **Use PKCE**: `SHA-256`
+* **Token URI**: `https://localhost:8080/oauth/v2/token`
+* **Response Mode**: `form_post`
+
+After completing the flow, scroll down to the **PKCE Result** section and copy the generated `id_token`. You can then use this token as a **Bearer token** in the Authorization header when making authenticated API requests.
