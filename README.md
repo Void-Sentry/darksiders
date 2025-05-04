@@ -62,7 +62,7 @@ Visit the console at:
    * **Type**: Web
    * **Authentication Method**: PKCE (Proof Key for Code Exchange)
    * Enable **Development Mode**
-   * **Redirect URI**: `http://localhost:8000/callback`
+   * **Redirect URI**: `http://localhost:8000/callback` and `https://oidcdebugger.com/debug` (for postman)
    * **Post Logout URI**: `http://localhost:8000`
 4. After creating the application, copy the generated **Client ID**.
 5. Run the command below, replacing `<CLIENT_ID>` with the one you copied:
@@ -174,4 +174,7 @@ To manually obtain an ID token for authenticated API testing (e.g., via Postman)
 * **Token URI**: `https://localhost:8080/oauth/v2/token`
 * **Response Mode**: `form_post`
 
-After completing the flow, scroll down to the **PKCE Result** section and copy the generated `id_token`. You can then use this token as a **Bearer token** in the Authorization header when making authenticated API requests.
+After completing the flow, scroll down to the **PKCE Result** section and copy the generated `id_token`.
+
+You should then use this token in a `POST` request to `/profile/session`, which will exchange the `id_token` for a session cookie. All authenticated routes in the system require this cookie to be present in subsequent requests, as it represents the active session.
+
