@@ -34,7 +34,7 @@ update_client_id() {
       || echo "AUDIENCE=$CLIENT_ID" >> "$FILE"
   done
 
-  docker compose -f compose/compose.yaml up -d fury death strife war eireneon --force-recreate --build
+  docker compose -f compose/compose.yaml up -d gateway fury death strife war eireneon --force-recreate --build
 }
 
 update_service_token() {
@@ -51,7 +51,7 @@ update_service_token() {
   echo "Verification:"
   grep "^SERVICE_TOKEN=" "$FILE"
 
-  docker compose -f compose/compose.yaml up -d war --force-recreate
+  docker compose -f compose/compose.yaml up -d gateway war --force-recreate
 }
 
 # Handle command line arguments

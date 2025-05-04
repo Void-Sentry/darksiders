@@ -141,10 +141,6 @@ All outgoing emails (e.g., verifications, resets) can be viewed via MailPit:
 
 ---
 
-Claro! Aqui está a seção reformulada com um inglês mais claro e profissional, e o ponto 6 mais elaborado:
-
----
-
 ### 6. Access the Frontend
 
 Navigate to the frontend application to interact with the Darksiders platform.
