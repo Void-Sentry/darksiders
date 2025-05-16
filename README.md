@@ -37,7 +37,7 @@ git clone https://github.com/Void-Sentry/darksiders.git --recursive && cd darksi
 ### 2. Grant Execute Permission to Setup Script
 
 ```bash
-chmod +x setup.sh
+chmod +x setup.bash
 ```
 
 ---
@@ -45,7 +45,7 @@ chmod +x setup.sh
 ### 3. Run Initial Setup
 
 ```bash
-./setup.sh initialize
+./setup.bash initialize
 ```
 
 ---
@@ -76,7 +76,7 @@ Visit the console at:
 5. Run the command below, replacing `<CLIENT_ID>` with the one you copied:
 
 ```bash
-./setup.sh update_client_id <CLIENT_ID>
+./setup.bash update_client_id <CLIENT_ID>
 ```
 
 ---
@@ -98,7 +98,7 @@ Visit the console at:
 9. Run the command below, replacing `<SERVICE_TOKEN>` with the copied token:
 
 ```bash
-./setup.sh update_service_token <SERVICE_TOKEN>
+./setup.bash update_service_token <SERVICE_TOKEN>
 ```
 
 ---
