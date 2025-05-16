@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 # Minimum required versions
 MIN_DOCKER_VERSION="28.0.4"
