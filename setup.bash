@@ -19,7 +19,7 @@ command_exists() {
 # Function to run command with appropriate privileges
 run_with_privileges() {
     if [ "$NEED_SUDO" = true ]; then
-        echo -e "${YELLOW}Requires sudo privileges, please enter password if prompted...${NC}"
+        # echo -e "${YELLOW}Requires sudo privileges, please enter password if prompted...${NC}"
         sudo "$@"
     else
         "$@"
