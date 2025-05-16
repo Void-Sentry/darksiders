@@ -1,8 +1,8 @@
 #!/bin/bash
 
 # Minimum required versions
-MIN_DOCKER_VERSION="28.0.4"
-MIN_COMPOSE_VERSION="v2.34.0"
+MIN_DOCKER_VERSION="27.5.1"
+MIN_COMPOSE_VERSION="v2.32.4"
 MIN_DESKTOP_VERSION="4.40.0"
 
 # Colors for messages
