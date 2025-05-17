@@ -19,7 +19,6 @@ command_exists() {
 # Function to run command with appropriate privileges
 run_with_privileges() {
     if [ "$NEED_SUDO" = true ]; then
-        # echo -e "${YELLOW}Requires sudo privileges, please enter password if prompted...${NC}"
         sudo "$@"
     else
         "$@"
@@ -171,37 +170,58 @@ check_compose_version() {
     fi
 }
 
-# Show spinner animation
-show_spinner() {
-    local delay=0.1
-    local spinstr='|/-\'
-    echo -n "$1 "
-    while kill -0 "$!" 2>/dev/null; do
-        local temp=${spinstr#?}
-        printf " [%c]  " "$spinstr"
-        local spinstr=$temp${spinstr%"$temp"}
-        sleep $delay
-        printf "\b\b\b\b\b\b"
+show_loading() {
+    local service_name=$1
+    local timeout_seconds=$2
+    local check_command=$3
+    local success_message=$4
+    local failure_message=$5
+    
+    local start_time=$(date +%s)
+    local elapsed_seconds=0
+    local progress_steps=("⣾" "⣽" "⣻" "⢿" "⡿" "⣟" "⣯" "⣷")
+    local step=0
+    
+    echo -e "${YELLOW}Waiting for $service_name to start (timeout: ${timeout_seconds}s)...${NC}"
+    
+    while [ $elapsed_seconds -lt $timeout_seconds ]; do
+        if eval "$check_command"; then
+            echo -e "\r${GREEN}✓ $success_message${NC} (took $elapsed_seconds seconds)"
+            return 0
+        fi
+
+        printf "\r${progress_steps[$step]} [%3ds/%3ds] %s" "$elapsed_seconds" "$timeout_seconds" "$service_name"
+        step=$(( (step+1) % ${#progress_steps[@]} ))
+        
+        sleep 1
+        elapsed_seconds=$(( $(date +%s) - start_time ))
     done
-    echo "..."
+    
+    echo -e "\r${RED}✗ $failure_message${NC} (after ${timeout_seconds}s)"
+    echo -e "${YELLOW}Check the logs with:${NC} $COMPOSE_CMD logs $service_name"
+    exit 1
 }
 
 # Wait for Zitadel to start
 wait_for_zitadel_start() {
-    until run_with_privileges $COMPOSE_CMD -f compose/compose.yaml logs zitadel 2>&1 | grep -q "http://localhost:8001/debug/healthz"; do
-        sleep 1
-    done
+    show_loading \
+        "Zitadel" \
+        180 \
+        "run_with_privileges $COMPOSE_CMD -f compose/compose.yaml logs zitadel 2>&1 | grep -q \"http://localhost:8001/debug/healthz\"" \
+        "Zitadel is ready" \
+        "Timeout waiting for Zitadel to start"
 }
 
 # Wait for CockroachDB to start
 wait_for_cockroach_start() {
     local nodes=("roach1" "roach2" "roach3")
-    local ready_message="awaiting \`cockroach init\` or join with an already initialized node"
-
     for node in "${nodes[@]}"; do
-        until run_with_privileges $COMPOSE_CMD -f compose/compose.yaml logs "$node" 2>&1 | grep -q "$ready_message"; do
-            sleep 1
-        done
+        show_loading \
+            "CockroachDB ($node)" \
+            60 \
+            "run_with_privileges $COMPOSE_CMD -f compose/compose.yaml logs --since 1h $node 2>&1 | grep -q \"awaiting .cockroach init. or join with an already initialized node\"" \
+            "CockroachDB node $node is ready" \
+            "Timeout waiting for CockroachDB node $node"
     done
 }
 
@@ -225,14 +245,12 @@ initialize() {
 
     run_with_privileges $COMPOSE_CMD -f compose/compose.yaml up -d
 
-    show_spinner "Waiting for CockroachDB to start" &
     wait_pid=$!
     wait_for_cockroach_start
     kill $wait_pid 2>/dev/null
 
     run_with_privileges $DOCKER_CMD exec -it compose-roach1-1 ./cockroach --host roach1:26357 init --certs-dir /run/secrets
 
-    show_spinner "Waiting for Zitadel to start" &
     wait_pid=$!
     wait_for_zitadel_start
     kill $wait_pid 2>/dev/null
