@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 # Minimum required versions
 MIN_DOCKER_VERSION="27.5.1"
